@@ -1,0 +1,11 @@
+## Este arquivo é um exemplo de como configurar suas chaves do Supabase
+## Copie este arquivo para local.properties e adicione suas próprias chaves
+
+# Chaves do Supabase
+# Obtenha em: https://supabase.com -> Seu Projeto -> Settings -> API
+SUPABASE_URL=sua_url_aqui
+SUPABASE_KEY=sua_chave_aqui
+
+# Exemplo:
+# SUPABASE_URL=https://seuprojetoaqui.supabase.co
+# SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
