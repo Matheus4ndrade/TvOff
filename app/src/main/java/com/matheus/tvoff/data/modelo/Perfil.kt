@@ -1,5 +1,6 @@
 package com.matheus.tvoff.data.modelo
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -7,10 +8,16 @@ data class Perfil(
     val nickname: String,
     val nome: String,
     val bio: String = "",
+    @SerialName("avatar_url")
     val avatarUrl: String? = null,
+    @SerialName("albens_favoritos")
     val albensFavoritos: List<Album> = emptyList(),
+    @SerialName("albens_ouvidos")
     val albensOuvidos: List<AvaliacaoAlbum> = emptyList(),
-    val dataCriacao: Long = System.currentTimeMillis()
+    @SerialName("data_criacao")
+    val dataCriacao: Long = System.currentTimeMillis(),
+    @SerialName("senha_hash")
+    val senhaHash: String = ""
 ) {
 
     fun obterIniciais(): String {

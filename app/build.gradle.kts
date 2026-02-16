@@ -30,9 +30,10 @@ android {
             useSupportLibrary = true
         }
 
-        // Adicionar as chaves do Supabase ao BuildConfig
+        // Adicionar as chaves ao BuildConfig
         buildConfigField("String", "SUPABASE_URL", "\"${localProperties.getProperty("SUPABASE_URL") ?: ""}\"")
         buildConfigField("String", "SUPABASE_KEY", "\"${localProperties.getProperty("SUPABASE_KEY") ?: ""}\"")
+        buildConfigField("String", "LASTFM_API_KEY", "\"${localProperties.getProperty("LASTFM_API_KEY") ?: ""}\"")
     }
 
     buildTypes {

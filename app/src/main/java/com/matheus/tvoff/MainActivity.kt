@@ -18,9 +18,6 @@ import com.matheus.tvoff.ui.home.HomeScreen
 import com.matheus.tvoff.ui.perfil.PerfilScreen
 import com.matheus.tvoff.ui.theme.TvOffTheme
 
-/**
- * gerencia a navegação entre as telas
- */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +35,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-/**
- * Configuração de navegação do app
- */
 
 @Composable
 fun AppNavigation() {

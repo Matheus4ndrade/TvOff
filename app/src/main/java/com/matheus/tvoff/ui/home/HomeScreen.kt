@@ -24,38 +24,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.matheus.tvoff.ui.theme.*
 
-/**
- * add na tela inicial
- * carrossel de albuns
- */
-
 @Composable
-fun HomeScreen(
-    aoClicarEntrar: (String) -> Unit
-) {
-    var username by remember { mutableStateOf("") }
-    val scrollState = rememberScrollState()
+fun HomeScreen(aoClicarEntrar: (String) -> Unit) {
+    var nomeUsuario by remember { mutableStateOf("") }
+    val estadoScroll = rememberScrollState()
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(PretoBase)
     ) {
-
-        GridPattern()
+        PadraoGrade()
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(scrollState)
+                .verticalScroll(estadoScroll)
                 .padding(32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Spacer(modifier = Modifier.height(80.dp))
-
             LogoAnimada()
-
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
@@ -67,27 +56,26 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            FormularioUsername(
-                username = username,
-                aoMudarUsername = { username = it },
-                aoClicarEntrar = { aoClicarEntrar(username) }
+            FormularioEntrada(
+                nomeUsuario = nomeUsuario,
+                aoMudarNome = { nomeUsuario = it },
+                aoClicarEntrar = { aoClicarEntrar(nomeUsuario) }
             )
 
             Spacer(modifier = Modifier.height(80.dp))
-            GridFeatures()
+            GradeRecursos()
             Spacer(modifier = Modifier.height(80.dp))
-            FooterHome()
+            Rodape()
             Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
 
 @Composable
-fun GridPattern() {
-    Canvas(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        val gridSize = 60.dp.toPx()
+private fun PadraoGrade() {
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        val tamanhoGrade = 60.dp.toPx()
+
         var x = 0f
         while (x < size.width) {
             drawLine(
@@ -96,8 +84,9 @@ fun GridPattern() {
                 end = Offset(x, size.height),
                 strokeWidth = 1f
             )
-            x += gridSize
+            x += tamanhoGrade
         }
+
         var y = 0f
         while (y < size.height) {
             drawLine(
@@ -106,15 +95,15 @@ fun GridPattern() {
                 end = Offset(size.width, y),
                 strokeWidth = 1f
             )
-            y += gridSize
+            y += tamanhoGrade
         }
     }
 }
 
 @Composable
-fun LogoAnimada() {
-    val infiniteTransition = rememberInfiniteTransition(label = "gradient")
-    val offsetX by infiniteTransition.animateFloat(
+private fun LogoAnimada() {
+    val transicaoInfinita = rememberInfiniteTransition(label = "gradient")
+    val deslocamentoX by transicaoInfinita.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
@@ -124,21 +113,14 @@ fun LogoAnimada() {
         label = "gradientShift"
     )
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = "TVOFF",
             style = MaterialTheme.typography.displayLarge.copy(
                 brush = Brush.linearGradient(
-                    colors = listOf(
-                        CoralVermelho,
-                        AzulTurquesa,
-                        AmareloClaro,
-                        VerdeAgua
-                    ),
-                    start = Offset(offsetX * 1000, offsetX * 1000),
-                    end = Offset((1 - offsetX) * 1000, (1 - offsetX) * 1000)
+                    colors = listOf(CoralVermelho, AzulTurquesa, AmareloClaro, VerdeAgua),
+                    start = Offset(deslocamentoX * 1000, deslocamentoX * 1000),
+                    end = Offset((1 - deslocamentoX) * 1000, (1 - deslocamentoX) * 1000)
                 )
             )
         )
@@ -165,9 +147,9 @@ fun LogoAnimada() {
 }
 
 @Composable
-fun FormularioUsername(
-    username: String,
-    aoMudarUsername: (String) -> Unit,
+private fun FormularioEntrada(
+    nomeUsuario: String,
+    aoMudarNome: (String) -> Unit,
     aoClicarEntrar: () -> Unit
 ) {
     Row(
@@ -178,15 +160,10 @@ fun FormularioUsername(
         verticalAlignment = Alignment.CenterVertically
     ) {
         OutlinedTextField(
-            value = username,
-            onValueChange = aoMudarUsername,
+            value = nomeUsuario,
+            onValueChange = aoMudarNome,
             modifier = Modifier.weight(1f),
-            placeholder = {
-                Text(
-                    text = "Digite seu username",
-                    color = Cinza600
-                )
-            },
+            placeholder = { Text("Digite seu username", color = Cinza600) },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = BrancoTotal,
                 unfocusedTextColor = BrancoTotal,
@@ -200,13 +177,13 @@ fun FormularioUsername(
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
             keyboardActions = KeyboardActions(
-                onGo = { if (username.isNotBlank()) aoClicarEntrar() }
+                onGo = { if (nomeUsuario.isNotBlank()) aoClicarEntrar() }
             )
         )
 
         Button(
             onClick = aoClicarEntrar,
-            enabled = username.isNotBlank(),
+            enabled = nomeUsuario.isNotBlank(),
             modifier = Modifier.height(56.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = CoralVermelho,
@@ -228,24 +205,24 @@ fun FormularioUsername(
 }
 
 @Composable
-fun GridFeatures() {
+private fun GradeRecursos() {
     Column(
         modifier = Modifier.widthIn(max = 900.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        FeatureCard(
+        CardRecurso(
             icone = "🎵",
             titulo = "Seu perfil musical",
-            descricao = "App voltado para albuns de musica"
+            descricao = "App voltado para álbuns de música"
         )
 
-        FeatureCard(
+        CardRecurso(
             icone = "⭐",
             titulo = "Os meus 5 favoritos",
             descricao = "Os discos que mais definem seu gosto"
         )
 
-        FeatureCard(
+        CardRecurso(
             icone = "🎧",
             titulo = "Histórico",
             descricao = "Registre tudo que já ouviu e avalie"
@@ -254,7 +231,7 @@ fun GridFeatures() {
 }
 
 @Composable
-fun FeatureCard(
+private fun CardRecurso(
     icone: String,
     titulo: String,
     descricao: String
@@ -305,7 +282,7 @@ fun FeatureCard(
 }
 
 @Composable
-fun FooterHome() {
+private fun Rodape() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(top = 32.dp)
